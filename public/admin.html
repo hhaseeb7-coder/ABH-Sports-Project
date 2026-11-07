@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101114">
+  <title>Store Admin — ABH SPORTS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="portal.css">
+</head>
+<body class="portal-page admin-page">
+  <div class="announcement">ABH SPORTS <span>/</span> STORE MANAGEMENT</div>
+  <header class="site-header">
+    <a class="brand" href="/">ABH<span>SPORTS</span><small>BUILT FOR THE WIN</small></a>
+    <nav class="main-navigation" aria-label="Main navigation">
+      <a class="nav-link" href="/">HOME</a>
+      <a class="nav-link" href="/shop.html">SHOP</a>
+      <a class="nav-link active" href="/admin.html">ADMIN</a>
+    </nav>
+    <div class="header-actions">
+      <a class="text-button" href="/shop.html">VIEW STORE ↗</a>
+      <button class="text-button" id="signOut" hidden>SIGN OUT</button>
+    </div>
+  </header>
+
+  <main class="admin-main">
+    <section id="loginPanel" class="portal-card admin-login admin-login-modern">
+      <div class="admin-login-mark">ABH<span>SPORTS</span></div>
+      <p class="eyebrow">SECURE STORE ACCESS</p>
+      <h1>WELCOME <em>BACK.</em></h1>
+      <p class="admin-login-copy">Sign in to manage your catalogue, inventory and customer orders.</p>
+      <form id="loginForm" class="admin-form">
+        <label class="wide">USERNAME<input name="username" type="text" required autocomplete="username" placeholder="Administrator username"></label>
+        <label class="wide">PASSWORD<input name="password" type="password" required autocomplete="current-password" placeholder="Your password"></label>
+        <button class="admin-action wide" type="submit">SIGN IN TO DASHBOARD <span>↗</span></button>
+      </form>
+      <p id="loginMessage" class="admin-message" role="status"></p>
+      <div class="admin-login-foot">ABH SPORTS <span>•</span> BUILT FOR THE WIN</div>
+    </section>
+
+    <section id="adminApp" class="admin-app" hidden>
+      <aside class="admin-sidebar">
+        <div class="admin-sidebar-brand">
+          <span class="admin-brand-mark">ABH</span>
+          <span><strong>ABH SPORTS</strong><small>STORE CONTROL</small></span>
+        </div>
+        <div class="admin-sidebar-label">WORKSPACE</div>
+        <nav class="admin-side-nav" aria-label="Admin sections">
+          <button class="active" data-view="overview"><span class="admin-nav-icon">▦</span><span>Overview</span><i>01</i></button>
+          <button data-view="products"><span class="admin-nav-icon">◇</span><span>Products</span><i>02</i></button>
+          <button data-view="orders"><span class="admin-nav-icon">↗</span><span>Orders</span><i>03</i></button>
+        </nav>
+        <div class="admin-sidebar-bottom">
+          <div class="admin-sidebar-note"><span class="admin-live-dot"></span><span><strong>Store workspace</strong><small>Management access</small></span></div>
+          <a href="/" class="admin-back-store">← Back to website</a>
+        </div>
+      </aside>
+
+      <div class="admin-workspace">
+        <div class="admin-topbar">
+          <div><p class="eyebrow">ABH SPORTS <span>/</span> ADMINISTRATION</p><h1>STORE <em>CONTROL.</em></h1></div>
+          <div class="admin-topbar-actions">
+            <span id="adminStatus" class="admin-connection"><span class="admin-live-dot"></span> Connected</span>
+            <a href="/shop.html" class="admin-view-store">View store ↗</a>
+            <button class="admin-signout" id="adminSignOut" type="button">Sign out</button>
+          </div>
+        </div>
+
+        <section id="overviewView" class="admin-view">
+          <div class="admin-section-heading">
+            <div><p class="eyebrow">YOUR BUSINESS AT A GLANCE</p><h2>Overview</h2><p>Here's what's happening with your store.</p></div>
+            <span id="overviewUpdated" class="admin-updated"></span>
+          </div>
+          <div id="stats" class="admin-stats"></div>
+          <div class="admin-overview-grid">
+            <section class="portal-card admin-content-card admin-recent-card">
+              <div class="admin-card-heading"><div><p class="eyebrow">LATEST ACTIVITY</p><h3>Recent orders</h3></div><button class="admin-inline-link" data-view="orders" type="button">View all orders ↗</button></div>
+              <div id="recentOrders"></div>
+            </section>
+            <aside class="portal-card admin-quick-card">
+              <p class="eyebrow">QUICK ACCESS</p><h3>Keep things moving.</h3>
+              <p>Manage your products or review incoming customer orders.</p>
+              <button type="button" data-view="products">Manage products <span>↗</span></button>
+              <a href="/shop.html">Open customer shop <span>↗</span></a>
+            </aside>
+          </div>
+        </section>
+
+        <section id="productsView" class="admin-view" hidden>
+          <div class="admin-section-heading">
+            <div><p class="eyebrow">CATALOGUE <span>/</span> INVENTORY</p><h2>Products</h2><p>Add new items and keep product information up to date.</p></div>
+          </div>
+          <div class="admin-product-toolbar">
+            <div><span class="admin-catalogue-count" id="productCount">0 products</span><p>Keep your cricket catalogue accurate and up to date.</p></div>
+            <button class="admin-action admin-add-trigger" id="openAddProduct" type="button"><span>＋</span> ADD PRODUCT</button>
+          </div>
+          <section class="admin-catalogue-section">
+            <div class="admin-section-heading admin-section-heading-inline">
+              <div><p class="eyebrow">ALL STORE ITEMS</p><h2>Product catalogue</h2></div>
+              <div class="admin-product-filters"><label class="admin-search"><span>⌕</span><input id="productSearch" type="search" placeholder="Search products..." aria-label="Search products"></label><select id="productCategoryFilter" aria-label="Filter by category"><option value="">All categories</option><option>Bats</option><option>Batting Gloves</option><option>Batting Pads</option><option>Guard</option><option>Wicketkeeping</option><option>Helmets</option><option>Caps</option><option>Kit Bag</option><option>Shoes</option></select></div>
+            </div>
+            <div class="portal-card admin-content-card admin-table-wrap"><table class="admin-table admin-products-table"><thead><tr><th>PRODUCT</th><th>PRICE</th><th>STOCK STATUS</th><th>VISIBILITY</th><th>ACTIONS</th></tr></thead><tbody id="productRows"></tbody></table></div><div class="admin-pagination" id="productPagination"></div>
+          </section>
+        </section>
+
+        <section id="ordersView" class="admin-view" hidden>
+          <div class="admin-section-heading admin-section-heading-inline">
+            <div><p class="eyebrow">CUSTOMER ACTIVITY <span>/</span> FULFILMENT</p><h2>Orders</h2><p>Review purchases and keep customers up to date.</p></div>
+            <label class="admin-search"><span>⌕</span><input id="orderSearch" type="search" placeholder="Search order or customer..." aria-label="Search orders"></label>
+          </div>
+          <div class="portal-card admin-content-card admin-table-wrap"><table class="admin-table"><thead><tr><th>ORDER / DATE</th><th>CUSTOMER / ITEMS</th><th>TOTAL</th><th>STATUS</th><th>UPDATE</th></tr></thead><tbody id="orderRows"></tbody></table></div>
+          <p id="orderMessage" class="admin-message" role="status"></p>
+        </section>
+        <p id="globalMessage" class="admin-message" role="status"></p>
+        <footer class="admin-footer"><span>© 2026 ABH SPORTS</span><span>BUILT FOR THE WIN <b>•</b> STORE MANAGEMENT</span></footer>
+      </div>
+    </section>
+  </main>
+    <div class="admin-modal-backdrop" id="productModal" aria-hidden="true">
+      <section class="admin-product-modal" role="dialog" aria-modal="true" aria-labelledby="productModalTitle">
+        <header class="admin-modal-header"><div><p class="eyebrow" id="productModalEyebrow">CATALOGUE MANAGEMENT</p><h2 id="productModalTitle">Add a product</h2><p>Enter the product information below.</p></div><button type="button" class="admin-modal-close" id="closeProductModal" aria-label="Close">×</button></header>
+        <form id="productForm" class="admin-form admin-product-form">
+          <label class="wide">PRODUCT NAME<input name="name" required maxlength="120" placeholder="e.g. Pro English Willow Bat"></label>
+          <label>CATEGORY<select name="category" required><option value="Bats">Bats</option><option>Batting Gloves</option><option>Batting Pads</option><option>Guard</option><option>Wicketkeeping</option><option>Helmets</option><option>Caps</option><option>Kit Bag</option><option>Shoes</option></select></label>
+          <label>SUBCATEGORY<input name="subcategory" maxlength="80" placeholder="e.g. English Willow"></label>
+          <label>PRICE (PKR)<input name="price" type="number" min="0" step="1" required placeholder="0"></label>
+          <label>STOCK QUANTITY<input name="stock" type="number" min="0" step="1" required placeholder="0"></label>
+          <label class="wide">DESCRIPTION<textarea name="description" rows="3" maxlength="1000" placeholder="Product details and features"></textarea></label>
+          <label>COLOURS<input name="colours" placeholder="Black, White, Red"></label>
+          <label>SIZES / VARIATIONS<input name="sizes" placeholder="S, M, L, XL"></label>
+          <div class="wide admin-image-field"><label for="productImageFile">PRODUCT IMAGE</label><div class="admin-image-options"><input id="productImageFile" name="imageFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"><span>OR</span><input name="imageUrl" type="url" placeholder="Paste an image URL (optional)"></div><div class="admin-image-preview" id="productImagePreviewWrap" hidden><img id="productImagePreview" alt="Product image preview"><button type="button" id="removeProductImage">Remove image</button></div><small>PNG, JPG, WEBP or GIF · Maximum 5 MB</small></div>
+          <label class="wide admin-featured-label"><span><input name="featured" type="checkbox"> Feature this product on the store</span></label>
+          <p class="admin-modal-message wide" id="productFormMessage" role="status"></p>
+          <footer class="admin-modal-actions wide"><button type="button" class="admin-modal-cancel" id="cancelProductModal">CANCEL</button><button type="submit" class="admin-action" id="saveProductButton">SAVE PRODUCT <span>↗</span></button></footer>
+        </form>
+      </section>
+    </div>
+  <script src="admin.js"></script>
+</body>
+</html>

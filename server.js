@@ -41,8 +41,8 @@ if (!fs.existsSync(path.join(DATA,'users.json'))) write('users.json', []);
 app.use(express.json({ limit: '12mb' }));
 app.use(express.static(path.join(ROOT, 'public')));
 const sessions = new Map();
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@abhsports.pk';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'ABHadmin123!';
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'abd';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '123123123';
 function admin(req,res,next) { const token = (req.headers.authorization || '').replace(/^Bearer\s+/i,''); if (!token || !sessions.has(token)) return res.status(401).json({error:'Please sign in as administrator.'}); req.admin = true; next(); }
 app.get('/api/products', (req,res) => res.json(read('products.json', [])));
 app.post('/api/orders', (req,res) => {
@@ -65,7 +65,7 @@ app.post('/api/orders', (req,res) => {
   orders.unshift(order); write('orders.json', orders); res.status(201).json({message:'Order placed successfully!', orderId:order.id, total});
 });
 app.post('/api/orders/track', (req,res) => { const {orderId, phone} = req.body || {}; if(!orderId || !phone) return res.status(400).json({error:'Enter both your order reference and checkout phone number.'}); const order = read('orders.json', []).find(o => o.id.toLowerCase() === String(orderId).toLowerCase() && String(o.customer.phone).replace(/\s/g,'') === String(phone).replace(/\s/g,'')); if(!order) return res.status(404).json({error:'We could not find an order matching those details.'}); res.json({id:order.id,createdAt:order.createdAt,status:order.status,total:order.total,items:order.items}); });
-app.post('/api/admin/login', (req,res) => { const {email,password} = req.body || {}; if (email !== ADMIN_EMAIL || password !== ADMIN_PASSWORD) return res.status(401).json({error:'Incorrect administrator email or password.'}); const token = crypto.randomBytes(32).toString('hex'); sessions.set(token, true); res.json({token, message:'Signed in successfully.'}); });
+app.post('/api/admin/login', (req,res) => { const {username,password} = req.body || {}; if (username !== ADMIN_USERNAME || password !== ADMIN_PASSWORD) return res.status(401).json({error:'Incorrect administrator email or password.'}); const token = crypto.randomBytes(32).toString('hex'); sessions.set(token, true); res.json({token, message:'Signed in successfully.'}); });
 app.get('/api/admin/summary', admin, (req,res) => { const products=read('products.json',[]), orders=read('orders.json',[]); res.json({products,orders,stats:{products:products.length,orders:orders.length,revenue:orders.reduce((s,o)=>s+o.total,0),lowStock:products.filter(p=>p.stock<5).length}}); });
 function saveProductImage(image) {
   if (typeof image !== 'string' || !image.trim()) return '';
